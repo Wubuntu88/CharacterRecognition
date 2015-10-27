@@ -4,11 +4,25 @@ __author__ = 'will'
 threshold = 0  # 0.5
 learning_rate = 1  # 0.1
 weights = [0, 0, 0]
+# training set is a tuple containing 2 items: a tuple and an int
+# 1st val: tuple: xi to xn where x is a potential input vector (the bias var must be present)
+# 2nd val: int: is the desired output of the neural network
+'''
 training_set = [((1, -1, -1), 1),
                 ((1, -1, 1), 1),
                 ((1, 1, -1), 1),
                 ((1, 1, 1), -1)]  # NAND
-#  training_set = [((-1, -1, -1), -1), ((-1, -1, 1), 1), ((-1, 1, -1), 1), ((-1, 1, 1), 1)] #  OR
+'''
+'''
+training_set = [((-1, -1, -1), -1),
+                ((-1, -1, 1), 1),
+                ((-1, 1, -1), 1),
+                ((-1, 1, 1), 1)]  # OR with x0 as -1; x0 is bias
+'''
+training_set = [((1, -1, -1), -1),
+                ((1, -1, 1), 1),
+                ((1, 1, -1), 1),
+                ((1, 1, 1), 1)]  # OR with x0 as 1
 
 
 def dot_product(values, weights):
