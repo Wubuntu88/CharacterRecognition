@@ -60,8 +60,8 @@ allChars.extend(font3)
 
 input_vectors = []
 for index in range(len(allChars)):
-    vectorToAdd = [1 if x == "#" else 0 for x in allChars[index]]
-    bias = -1
+    vectorToAdd = [1 if x == "#" else -1 for x in allChars[index]]
+    bias = 1
     vectorToAdd.append(bias)
     input_vectors.append(vectorToAdd)
 
@@ -76,13 +76,13 @@ d_vectors.extend((input_vectors[3], input_vectors[7], input_vectors[11]))
 
 
 
-threshold = 0.5
-learning_rate = 1
+threshold = 0
+learning_rate = .1
 length_of_each_input_vector = len(input_vectors[0])
-a_weights = [0 for num in range(length_of_each_input_vector)]
-b_weights = [0 for num in range(length_of_each_input_vector)]
-c_weights = [0 for num in range(length_of_each_input_vector)]
-d_weights = [0 for num in range(length_of_each_input_vector)]
+a_weights = [1 for num in range(length_of_each_input_vector)]
+b_weights = [1 for num in range(length_of_each_input_vector)]
+c_weights = [1 for num in range(length_of_each_input_vector)]
+d_weights = [1 for num in range(length_of_each_input_vector)]
 
 # now I must create the training set for each neuron, i.e. the neuron that recognizes "A"
 # the neuron that recognizes "B", etc.  For example, the training set for "A" will
@@ -90,17 +90,55 @@ d_weights = [0 for num in range(length_of_each_input_vector)]
 # ("B", "C", and "D").  Desired output for "A" input vectors will have a desired output of 1
 # while the other input vectors will have the desired output of 0.  This is for neuron "A".
 
+training_set_for_a = []
+for in_vec in input_vectors:
+    vector_was_a_vector = False
+    for a_vector in a_vectors:
+        if a_vector == in_vec:
+            vector_was_a_vector = True
+            break
+    if vector_was_a_vector:
+        training_set_for_a.append((in_vec, 1))
+    else:
+        training_set_for_a.append((in_vec, -1))
+'''
+for item in training_set_for_a:
+    print item
+'''
+'''
+Below is the code and functions for performing the weight update rule and
+training the neural network
+'''
 
 
+def dot_product(values, weights):
+    return sum(value * weight for value, weight in zip(values, weights))
 
 
+def weight_update(training_set, weights):
+    """
+    Trains the neural network by updating the weights
+    :param training_set: a tuple with the first element an input vector
+    (with the bias included) and the second element the desired output
+    :param weights: the vector (list) of weights that must be updated
+    so that the neural network is trained.
+    """
+    while True:
+        error_count = 0
+        # print weights
+        for input_vector, desired_output in training_set:
+            observed = 1 if dot_product(input_vector, weights) >= threshold else -1
+            if desired_output != observed:
+                print "des: " + str(desired_output) + ", obs: " + str(observed)
+                error_count += 1
+                for index, value in enumerate(input_vector):
+                    weights[index] += .1 * desired_output * value
+                    # print weights[index] + .1 * desired_output * value
+        if error_count == 0:
+            break  # breaks out of while loop
 
+weight_update(training_set_for_a, a_weights)
+#print a_weights
 
-
-
-
-
-
-
-
-
+for item in a_weights:
+    print item
