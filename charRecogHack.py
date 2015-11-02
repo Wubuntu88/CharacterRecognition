@@ -112,7 +112,9 @@ def weight_update(training_set, weights, threshold, learning_rate):
             if desired_output != observed:
                 error_count += 1
                 for index, value in enumerate(input_vector):
-                    weights[index] += learning_rate * desired_output * value
+                    weights[index] += learning_rate * 2 * desired_output * value if desired_output < 0 \
+                        else learning_rate * desired_output * value
+                    # weights[index] += learning_rate * desired_output * value
         if error_count == 0:
             break  # breaks out of while loop
 '''
@@ -234,13 +236,3 @@ for vec in input_vectors:
         print "was not recognized"
     '''
     i += 1
-
-
-
-
-
-# now I must create the training set for each neuron, i.e. the neuron that recognizes "A"
-# the neuron that recognizes "B", etc.  For example, the training set for "A" will
-# have the input vectors of as well as the input vectors for all of the other vectors
-# ("B", "C", and "D").  Desired output for "A" input vectors will have a desired output of 1
-# while the other input vectors will have the desired output of 0.  This is for neuron "A".
