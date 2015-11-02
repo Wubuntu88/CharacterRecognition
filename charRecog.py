@@ -112,7 +112,9 @@ def weight_update(training_set, weights, threshold, learning_rate):
             if desired_output != observed:
                 error_count += 1
                 for index, value in enumerate(input_vector):
-                    weights[index] += learning_rate * desired_output * value
+                    weights[index] += learning_rate * 2 * desired_output * value if desired_output < 0 \
+                        else learning_rate * desired_output * value
+                    # weights[index] += learning_rate * desired_output * value
         if error_count == 0:
             break  # breaks out of while loop
 '''
@@ -164,13 +166,14 @@ d_training_set = create_training_set_for_character(input_vectors, d_vectors)
 Initializes the weight vectors that correspond to the input vectors for a given character.
 '''
 length_of_each_input_vector = len(input_vectors[0])
-a_weights = [1 for num in range(length_of_each_input_vector)]
-b_weights = [1 for num in range(length_of_each_input_vector)]
-c_weights = [1 for num in range(length_of_each_input_vector)]
-d_weights = [1 for num in range(length_of_each_input_vector)]
+initial_weight = 1
+a_weights = [initial_weight for num in range(length_of_each_input_vector)]
+b_weights = [initial_weight for num in range(length_of_each_input_vector)]
+c_weights = [initial_weight for num in range(length_of_each_input_vector)]
+d_weights = [initial_weight for num in range(length_of_each_input_vector)]
 
 my_threshold = 0
-my_learning_rate = .1
+my_learning_rate = .35
 
 weight_update(a_training_set, a_weights, threshold=my_threshold, learning_rate=my_learning_rate)
 weight_update(b_training_set, b_weights, threshold=my_threshold, learning_rate=my_learning_rate)
@@ -191,6 +194,11 @@ while True:
         c_was_recognized = activation_function(char_vector, c_weights, threshold=my_threshold)
         d_was_recognized = activation_function(char_vector, d_weights, threshold=my_threshold)
 
+        print dot_product(char_vector, a_weights)
+        print dot_product(char_vector, b_weights)
+        print dot_product(char_vector, c_weights)
+        print dot_product(char_vector, d_weights)
+
         if a_was_recognized == 1:
             print "Recognized as an \"A\""
         if b_was_recognized == 1:
@@ -204,15 +212,31 @@ while True:
     else:
         break
 
-
-'''
+i = 0
+weights = []
 for vec in input_vectors:
     predicted = activation_function(vec, d_weights, my_threshold)
-    if predicted == 1:
-        print "was a d"
+    if i % 4 == 0:
+        print "A"
+        weights = a_weights
+    elif i % 4 == 1:
+        print "B"
+        weights = b_weights
+    elif i % 4 == 2:
+        print "C"
+        weights = c_weights
     else:
-        print "was not d"
-'''
+        print "D"
+        weights = d_weights
+    print dot_product(vec, weights)
+    '''
+    if predicted == 1:
+        print "was recognized"
+    else:
+        print "was not recognized"
+    '''
+    i += 1
+
 
 
 
