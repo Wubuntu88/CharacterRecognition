@@ -194,10 +194,13 @@ while True:
         c_was_recognized = activation_function(char_vector, c_weights, threshold=my_threshold)
         d_was_recognized = activation_function(char_vector, d_weights, threshold=my_threshold)
 
+        '''
+        prints out the dot product of the user's chosen char vector and each weight
         print dot_product(char_vector, a_weights)
         print dot_product(char_vector, b_weights)
         print dot_product(char_vector, c_weights)
         print dot_product(char_vector, d_weights)
+        '''
 
         if a_was_recognized == 1:
             print "Recognized as an \"A\""
@@ -207,11 +210,15 @@ while True:
             print "Recognized as a \"C\""
         if d_was_recognized == 1:
             print "Recognized as a \"D\""
-        if not a_was_recognized and not b_was_recognized and not c_was_recognized and not d_was_recognized:
+        if a_was_recognized != 1 and b_was_recognized != 1 and \
+                c_was_recognized != 1 and d_was_recognized != 1:
             print "No neuron recognized this character"
     else:
         break
 
+'''
+# verification that the neural network at least recognizes the characters that
+# it was trained to recognize
 i = 0
 weights = []
 for vec in input_vectors:
@@ -229,10 +236,11 @@ for vec in input_vectors:
         print "D"
         weights = d_weights
     print dot_product(vec, weights)
-    '''
+
     if predicted == 1:
         print "was recognized"
     else:
         print "was not recognized"
-    '''
+
     i += 1
+'''

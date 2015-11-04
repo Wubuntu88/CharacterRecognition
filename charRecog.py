@@ -191,12 +191,13 @@ while True:
         b_was_recognized = activation_function(char_vector, b_weights, threshold=my_threshold)
         c_was_recognized = activation_function(char_vector, c_weights, threshold=my_threshold)
         d_was_recognized = activation_function(char_vector, d_weights, threshold=my_threshold)
-
+        '''
+        prints out the dot product of the user's chosen char vector and each weight
         print dot_product(char_vector, a_weights)
         print dot_product(char_vector, b_weights)
         print dot_product(char_vector, c_weights)
         print dot_product(char_vector, d_weights)
-
+        '''
         if a_was_recognized == 1:
             print "Recognized as an \"A\""
         if b_was_recognized == 1:
@@ -205,11 +206,14 @@ while True:
             print "Recognized as a \"C\""
         if d_was_recognized == 1:
             print "Recognized as a \"D\""
-        if not a_was_recognized and not b_was_recognized and not c_was_recognized and not d_was_recognized:
+        if a_was_recognized != 1 and b_was_recognized != 1 and \
+                c_was_recognized != 1 and d_was_recognized != 1:
             print "No neuron recognized this character"
     else:
         break
-
+'''
+# verification that the neural network at least recognizes the characters that
+# it was trained to recognize
 i = 0
 weights = []
 for vec in input_vectors:
@@ -227,20 +231,11 @@ for vec in input_vectors:
         print "D"
         weights = d_weights
     print dot_product(vec, weights)
-    '''
+
     if predicted == 1:
         print "was recognized"
     else:
         print "was not recognized"
-    '''
+
     i += 1
-
-
-
-
-
-# now I must create the training set for each neuron, i.e. the neuron that recognizes "A"
-# the neuron that recognizes "B", etc.  For example, the training set for "A" will
-# have the input vectors of as well as the input vectors for all of the other vectors
-# ("B", "C", and "D").  Desired output for "A" input vectors will have a desired output of 1
-# while the other input vectors will have the desired output of 0.  This is for neuron "A".
+'''
